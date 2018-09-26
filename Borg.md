@@ -1,7 +1,7 @@
 # Borg
 ## 一、Borg是什么
 
-Borg是由Google开发的第一个集群管理工具，或者说容器管理工具。
+Borg是由Google开发的第一个集群管理工具，或者说容器管理工具。
 Borg可以同时运行数以十万计的job，这些job可以来自上千个不同的应用，并且跨越多个集群，每个集群又可以由上万机器组成。
 
 Borg的设计初衷，就是为了让开发者能够专注于业务开发，而不用担心资源管理问题，并做到 **集群管理资源利用最大化** 。
@@ -12,7 +12,7 @@ Borg作为第一个集群管理工具，在如今的集群管理工具之中可�
 
 ## 二、Borg的历史背景
 
-在Borg诞生之前，对于服务的管理由Babysitter解决，同时使用Global Work Queue来管理batch job。但是Google公司对于容器技术的持续研究，并付诸实践，修改inux内核使之能够直接对容器提供良好的支持，为用户服务与CPU-hungry的进程提供了良好的隔离性。在这块基石之上，Borg诞生了，它基于进程级别性能隔离的机器共享这一特性，大幅提高了services与batch jobs在集群管理时的资源利用率，减小了开销。
+在Borg诞生之前，对于服务的管理由Babysitter解决，同时使用Global Work Queue来管理batch job。但是Google公司对于容器技术的持续研究，并付诸实践，修改inux内核使之能够直接对容器提供良好的支持，为用户服务与CPU-hungry的进程提供了良好的隔离性。在这块基石之上，Borg诞生了，它基于进程级别性能隔离的机器共享这一特性，大幅提高了services与batch jobs在集群管理时的资源利用率，减小了开销。
 
 ## 三、用户眼中的Borg
 
@@ -74,7 +74,7 @@ Borg为每个task创造了一个叫”Borg name service“(BNS)类型的名字�
 
 Borg会记录所有的job提交情况，task事件，以及Infrastore中详细的task执行前的资源使用情况。Infrastore是一个有着类SQL接口的可扩展只读数据存储。这些数据被用作基于使用的计费，调试，系统错误以及长期的容量计划。同时，它们也为Google的集群负载追踪提供了数据。
 
-## 四、架构
+## 四、架构
 
 一个Borg的cell由一系列的机器组成，通常在cell运行着一个逻辑的中央控制器叫做Borgmaster，在cell中的每台机器上则运行着一个叫Borglet的代理进程。
 
@@ -98,20 +98,19 @@ Borg会记录所有的job提交情况，task事件，以及Infrastore中详细�
 
 以上是我个人对于Borg与当今我接触过的集群管理工具的一些对比和感想。
 
-作为第一个集群管理工具Borg对现在的框架工具也很有影响。
+作为第一个集群管理工具Borg对现在的框架工具也很有影响。
 
 Borg基于lxc container，而Kubenetes基于docker container，两者毕竟都出自于Google工程师之手，整体上十分相似。
 
 可能最开始会觉得Borg中job的概念对应于Kubernetes中的pod。
 
-但是Kubernetes的pod与
-但是job只是逻辑上的概念，Borg实际调度的是task，这跟rancher自己的调度框架cattle是类似的。cattle的一个Application（对应Borg的job）可以包括很多container（对应Borg的task），实际调度的是其中的container。
+但是job只是逻辑上的概念，Borg实际调度的是task，这跟rancher自己的调度框架cattle是类似的。cattle的一个Application（对应Borg的job）可以包括很多container（对应Borg的task），实际调度的是其中的container。
 
 实际上与pod对应的是borg中的alloc。同一个pod中的docker container共享network namepace和volume，container之间使用localhost通信，被当作一个整体被Kubernetes调度。
 
 而目前Kubenetes也不支持batch job
 
-其中BorgMaster 与 Borglet的主从设计也能rancher中看到影子。rancher部署集群时，也是先将一台机器作为master节点，之后陆续将其他节点加入，从master节点管理其他子节点。并且rancher加入子节点后，也会自动为其部署健康状态检查等基础设施。
+其中BorgMaster 与 Borglet的主从设计也能在rancher中看到影子。rancher部署集群时，也是先将一台机器作为master节点，之后陆续将其他节点加入，从master节点管理其他子节点。并且rancher加入子节点后，也会自动为其部署健康状态检查等基础设施。
 
 #### 参考资料：
  1. [Large-scale cluster management at Google with Borg][1]
