@@ -72,7 +72,7 @@ Borg作为第一个集群管理工具，在如今的集群管理工具之中可�
 
     Borg中为每个Task取了一个BNS(Borg Name Service)名字。这个名字中包含了Cell的名字、job的名字、Task的编号。同时Borg会将Task的主机名，端口号以及它的BNS写入Chubby里面一个一致的，高可用的文件中，而这个文件通常被我们的RPC系统用于查找Task。
 
-    在Kubernetes中是采用了Istio这个微服务框架来实现。
+    在Kubernetes中本身使用环境变量和DNS来实现服务发现。不过可能现在更多的在Kubernetes中使用Istio微服务框架。
 
 ## 五、Borg的影响
 
