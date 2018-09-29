@@ -24,6 +24,8 @@ Sigma兼容Kubernetes API，和开源社区共建。同时，即便在Sigma中�
 ### 灵活可配置的调度策略
 Sigma允许以插件化地方式基于外部输入实时调控集群打分模型，并且允许用户配置优化调度策略。业务团队开发出新的策略，可立即配置生效，不需要代码发布。
 
+![灵活配置](https://github.com/592McAvoy/homework1/blob/master/%E5%9B%BE%E7%89%87/%E7%81%B5%E6%B4%BB%E9%85%8D%E7%BD%AE.png)
+
 ### 离线任务与在线任务混部
 详见Sigma与Fuxi混部架构
 
