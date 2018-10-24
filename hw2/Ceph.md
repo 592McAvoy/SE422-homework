@@ -61,14 +61,14 @@ CephFS全称Ceph File System，是Ceph对外提供的文件系统服务。
 - 支持自定义接口，支持多种语言驱动。
 
 ## 架构
-![img](https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/icNyEYk3VqGk91oZGzW0jMNv73lKibM81QhjcewG8mWGufpxnich313icS4HGmxNIzYyuIprM5TxmXkO7xjoRbyvog/640?wx_fmt=png)
+![img](https://github.com/592McAvoy/homework1/blob/master/hw2/hw2%E5%9B%BE%E7%89%87/%E6%9E%B6%E6%9E%84.png)
 如图所示，Ceph支持三种接口：
 - Block：支持精简配置、快照、克隆。
 - File：Posix接口，支持快照。
 - Object：有原生的API，而且也兼容Swift和S3的API。
 
 ### 块存储
-![img](https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/icNyEYk3VqGk91oZGzW0jMNv73lKibM81QE6EUHFUa27icXn4tP6EjjMnmKbmPoZibVoIs3nl49Whzh3r3xeOypGuQ/640?wx_fmt=png)
+![img](https://github.com/592McAvoy/homework1/blob/master/hw2/hw2%E5%9B%BE%E7%89%87/%E5%9D%97.png)
 典型设备：磁盘阵列，硬盘。
 主要是将裸磁盘空间映射给主机使用。
 
@@ -88,7 +88,7 @@ CephFS全称Ceph File System，是Ceph对外提供的文件系统服务。
 - ……
 
 ### 文件存储
-![img](https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/icNyEYk3VqGk91oZGzW0jMNv73lKibM81Qicfib5EPlj7hfohLckHyUTZIlr5WrDmw2GvuXLPc2r1LUnKoiaica9ZVQg/640?wx_fmt=png)
+![img](https://github.com/592McAvoy/homework1/blob/master/hw2/hw2%E5%9B%BE%E7%89%87/%E6%96%87%E4%BB%B6.png)
 典型设备：FTP、NFS服务器
 为了克服块存储文件无法共享的问题，所以有了文件存储。
 在服务器上架设FTP与NFS服务，就是文件存储。
@@ -107,7 +107,7 @@ CephFS全称Ceph File System，是Ceph对外提供的文件系统服务。
 - ……
 
 ### 对象存储
-![img](https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/icNyEYk3VqGk91oZGzW0jMNv73lKibM81Q8go0TCzngrZmNa4qof0wFJcqabowz5quM1mSSSPliaiaiar2Uw3PWIyjA/640?wx_fmt=png)
+![img](https://github.com/592McAvoy/homework1/blob/master/hw2/hw2%E5%9B%BE%E7%89%87/%E5%AF%B9%E8%B1%A1.png)
 典型设备： 内置大容量硬盘的分布式服务器(swift, s3)
 多台服务器内置大容量硬盘，安装上对象存储管理软件，对外提供读写访问功能。
 
@@ -121,10 +121,10 @@ CephFS全称Ceph File System，是Ceph对外提供的文件系统服务。
 - ……
 
 ## Ceph IO流程及数据分布
-![img](https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/icNyEYk3VqGk91oZGzW0jMNv73lKibM81QB28g0d4YL1efUDyTjglTuYyT4qJibQM3pCQkASGquwicftaJ1HkILapA/640?wx_fmt=png)
+![img](https://github.com/592McAvoy/homework1/blob/master/hw2/hw2%E5%9B%BE%E7%89%87/IO1.png)
 
 ### 正常IO流程图
-![img](https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/icNyEYk3VqGk91oZGzW0jMNv73lKibM81QdPp686PopXr4JB0vxFdJfAITHhUBnibISkzHoVoz4P76bpVvF4dRTIw/640?wx_fmt=png)
+![img](https://github.com/592McAvoy/homework1/blob/master/hw2/hw2%E5%9B%BE%E7%89%87/IO2.png)
 
 #### 步骤：
 - client 创建cluster handler。
@@ -137,7 +137,7 @@ CephFS全称Ceph File System，是Ceph对外提供的文件系统服务。
 
 ### 数据分布
 #### Ceph Pool和PG分布情况
-![img](https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/icNyEYk3VqGk91oZGzW0jMNv73lKibM81Qv4kuu5tIG1WmrBowssMa5NqyVwOreM9wvk6bU44q6vE13rO3sdZsZA/640?wx_fmt=png)
+![img](https://github.com/592McAvoy/homework1/blob/master/hw2/hw2%E5%9B%BE%E7%89%87/pg1.png)
 
 - pool是ceph存储数据时的逻辑分区，它起到namespace的作用。
 - 每个pool包含一定数量(可配置)的PG。
@@ -151,10 +151,10 @@ CephFS全称Ceph File System，是Ceph对外提供的文件系统服务。
 - 扩容到4个OSD, 4个PG
 
 ##### 现状：
-![img](https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/icNyEYk3VqGk91oZGzW0jMNv73lKibM81QeXpKERorhVFPAlt8Mlcice0Su7A0h7ic524HohZT34eAryKzTjuU1xTA/640?wx_fmt=png)
+![img](https://github.com/592McAvoy/homework1/blob/master/hw2/hw2%E5%9B%BE%E7%89%87/%E9%A2%91%E5%85%89.png)
 
 ##### 扩容后：
-![img](https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/icNyEYk3VqGk91oZGzW0jMNv73lKibM81QMEAuXzdQqtYqRuCenPBAINFiaS3lstEHKkgQJiaRFic6kKAYoia8PDEicEA/640?wx_fmt=png)
+![img](https://github.com/592McAvoy/homework1/blob/master/hw2/hw2%E5%9B%BE%E7%89%87/pg3.png)
 
 每个OSD上分布很多PG, 并且每个PG会自动散落在不同的OSD上。如果扩容那么相应的PG会进行迁移到新的OSD上，保证PG数量的均衡。
 
