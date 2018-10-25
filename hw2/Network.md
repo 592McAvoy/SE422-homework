@@ -230,7 +230,13 @@ round-trip min/avg/max/stddev = 65.411/94.683/123.588/20.778 ms
 
 ## 评价
 
+家用网络现在通常只需要一个调制解调器、路由器二合一的设备就可以满足正常使用需求。
 
+企业级网络就需要专门的机房放置服务器、路由器等各种设备，同时还要保证其高可用性，有多个副本。
+
+至于网络性能问题，为了达到更快的网速，尽量采用光纤等有线连接方式，无线虽然方便，毕竟不如有线更快。
+
+若购买云服务器，尽量选择与目标用户地理位置更近的服务器。比如都是国内用户的话，就购买国内云服务器，而不是境外云服务器。
 
 [1]:https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Rack001.jpg/440px-Rack001.jpg
 [2]:https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Adsl_connections.jpg/440px-Adsl_connections.jpg
