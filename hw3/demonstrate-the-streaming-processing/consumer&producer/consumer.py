@@ -1,17 +1,14 @@
 from kafka import KafkaConsumer
-from time import time
+import logging
+import sys
 
-last = time()
-
-def toGetMetrics():
-    now = time()
-    if now - last > 60:
-        last = time()
-        return true
-    return false
+LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
 
 if __name__=='__main__':
+    logger = logging.getLogger('kafka')
+    logger.addHandler(logging.StreamHandler(sys.stdout))
+    logging.basicConfig(filename='consumer.log', level=logging.DEBUG, format=LOG_FORMAT)
     consumer = KafkaConsumer('my_topic', group_id= 'group2', bootstrap_servers= ['47.106.8.44:9092'])
-    for msg in consumer:
-    	
-	    print(msg)
+    for msg in consumer:	
+        print(msg)
+        logging.debug("Received Message: " + str(msg))
