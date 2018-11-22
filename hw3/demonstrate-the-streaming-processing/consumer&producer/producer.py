@@ -7,7 +7,6 @@ LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
 if __name__=='__main__':
     logger = logging.getLogger('kafka')
     logger.addHandler(logging.StreamHandler(sys.stdout))
-    logger.setLevel(logging.DEBUG)
     logging.basicConfig(filename='producer.log', level=logging.DEBUG, format=LOG_FORMAT)
 
     producer = KafkaProducer(bootstrap_servers=['47.106.8.44:9092'])
