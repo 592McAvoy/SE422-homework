@@ -95,7 +95,16 @@ CPU：i7-8700 3.2GHz 6cores
 - consumer运行环境：
 CPU：i5-4300U 1.9GHz 2cores
 
+### 测试结果
 由于核数限制，所以同时跑了6个producer和1个consumer。</br>
 在起producer的过程中，从1至6个，成功发送100条msg的时间并没有太多改变，均值为6.4752s。</br>
 consumer接收成功的速度会快很多，成功接收100条msg的时间均值为1.0987s，其恰好大约为producer所发送所需时间的1/6。</br>
 由此推测，consumer的接收不会成为整个系统的bottle neck。</br>
+
+### Grafana监测结果图
+#### 容器内存使用曲线图
+![内存使用曲线图](https://github.com/592McAvoy/homework1/blob/master/hw3/%E5%9B%BE%E7%89%87/%E5%86%85%E5%AD%98%E4%BD%BF%E7%94%A8.png)
+#### 网络输入流量曲线图
+![网络输入流量曲线图](https://github.com/592McAvoy/homework1/blob/master/hw3/%E5%9B%BE%E7%89%87/network%20input.png)
+#### 网络输出流量曲线图
+![网络输出流量曲线图](https://github.com/592McAvoy/homework1/blob/master/hw3/%E5%9B%BE%E7%89%87/network%20output.png)
