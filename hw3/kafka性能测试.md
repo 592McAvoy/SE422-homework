@@ -90,7 +90,7 @@ bash-4.4# ./bin/kafka-producer-perf-test.sh --topic test_perf --num-records 1000
 - 在throughput为20000时，比较能充分使用kafka-server的性能
 
 ### Consumer测试
-由测试二可以得出，consumer并不会成为整个系统的测试瓶颈，故对consumer的自带测试报告这里没有给出。
+由测试二可以得出，consumer并不会成为整个系统的性能瓶颈，故对consumer的自带测试报告这里没有给出。
 
 ## 测试二：在另两台电脑上运行producer和consumer
 - producer运行环境：
