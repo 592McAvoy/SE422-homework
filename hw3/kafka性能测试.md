@@ -89,6 +89,9 @@ bash-4.4# ./bin/kafka-producer-perf-test.sh --topic test_perf --num-records 1000
 - 在throughput为10000时，除latency外均优于其他。latency较高的原因可能为producer发送较慢。
 - 在throughput为20000时，比较能充分使用kafka-server的性能
 
+### Consumer测试
+由测试二可以得出，consumer并不会成为整个系统的测试瓶颈，故对consumer的自带测试报告这里没有给出。
+
 ## 测试二：在另两台电脑上运行producer和consumer
 - producer运行环境：
 CPU：i7-8700 3.2GHz 6cores
