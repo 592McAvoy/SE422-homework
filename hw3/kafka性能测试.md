@@ -90,7 +90,17 @@ bash-4.4# ./bin/kafka-producer-perf-test.sh --topic test_perf --num-records 1000
 - 在throughput为20000时，比较能充分使用kafka-server的性能
 
 ### Consumer测试
-由测试二可以得出，consumer并不会成为整个系统的性能瓶颈，故对consumer的自带测试报告这里没有给出。
+#### 测试：和线程数的关系
+```
+bash-4.4# ./bin/kafka-consumer-perf-test.sh --broker-list localhost:9092 --consumer.config config/consumer.properties --num-fetch-threads 20 --topic test_perf --messages 100
+bash-4.4# ./bin/kafka-consumer-perf-test.sh --broker-list localhost:9092 --consumer.config config/consumer.properties --num-fetch-threads 10 --topic test_perf --messages 100
+bash-4.4# ./bin/kafka-consumer-perf-test.sh --broker-list localhost:9092 --consumer.config config/consumer.properties --num-fetch-threads 5 --topic test_perf --messages 100
+```
+| threads | MB/S | nMSG/s|
+| :------: | :------: | :------:|
+| 20 | 0.0657 | 69.1467 |
+| 10 | 0.0655 | 68.9180 |
+| 5  | 0.0651 | 68.6813 |
 
 ## 测试二：在另两台电脑上运行producer和consumer
 - producer运行环境：
