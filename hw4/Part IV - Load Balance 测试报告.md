@@ -46,7 +46,7 @@
 
 
 ## 测试分析 ##
-### 1. Throughput（RPS）###
+### 1. Throughput（RPS） ###
 ![RPS][2]     
 
 可见replica数量从1增加为2时性能获得了急剧的提升，replica数量为5时达到RPS的最高峰，在此之后虽然replica数量上升，但是分发请求和维护replica的额外开销对整体性能造成了影响
