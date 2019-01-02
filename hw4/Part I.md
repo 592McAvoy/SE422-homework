@@ -25,6 +25,7 @@ sudo apt-get install gitlab-runner
 gitlab-runner run
 ```
 完成相关配置后，可以在repo的设置中看到正在运行的runner:
+![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/gitlab-runner.png)
 
 ## 创建.gitlab-ci.yml来配置CI的操作
 ### .gitlab-ci.yml介绍
@@ -35,6 +36,7 @@ gitlab-runner run
 
 ### 配置过程
 在仓库根目录创建.gitlab-ci.yml文件，并修改内容如图所示。
+![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png)
 
 图上内容表示在每次push后，首先进行执行before_script（在命令行打出“Restoring Packages”），随后执行build_job阶段的script（打出“Release build...”），最后执行test_job阶段的script（打出“Tests run...”）。
 
@@ -42,4 +44,7 @@ gitlab-runner run
 
 ### 最终结果
 至此gitlab的CI配置流程已经结束，随后在每次push后，gitlab均会根据.gitlab-ci.yml里的相关配置执行对应的操作，完成自动build与test。build与test的结果会显示在每次push之后。
+![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/commit%E8%87%AA%E5%8A%A8ci.png)
 如图显示此时push已经通过build与test。
+![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/CI%E8%87%AA%E5%8A%A8%E6%90%AD%E5%BB%BA.png)
+![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/CI%E8%87%AA%E5%8A%A8%E6%B5%8B%E8%AF%95.png)
