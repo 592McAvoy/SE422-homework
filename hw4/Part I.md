@@ -94,3 +94,4 @@ pipeline:
 在对swms-frontend仓库进行push后，drone成功监控到了这个行为，同时进行build和publish操作，并将打包内容上传至了docker hub上。
 ![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/CD%E8%87%AA%E5%8A%A8%E6%89%93%E5%8C%85%E5%89%8D%E7%AB%AFpush.png)
 swms-frontend与swms-backend的CI/CD环境均测试成功。
+![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/frontback.png)
