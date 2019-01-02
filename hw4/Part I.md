@@ -1,50 +1,93 @@
 # prepare a CI/CD environment
-在查询了相关资料之后，发现gitlab自己的CI做得已经非常好了，所以这次使用gitlab来搭建CI/CD环境。
-主要搭建步骤分两步：
-- 为项目注册gitlab-runner
-- 创建.gitlab-ci.yml来配置CI的操作
+本次CI/CD环境搭建选择drone+github，实现了在每次git push之后，drone能够监测到这个push，同时根据repo里.drone.yml的配置进行对应的操作。
 
-## 为项目注册gitlab-runner
-在gitlab上创建项目后，点击settings->CI/CD->runners->expand即可选择为该项目配置specific runners或shared runners。
+具体步骤如下：
+- 开启drone监控对应repo
+- 修改drone设置
+- 修改.drone.yml配置文件
 
-其中specific runners只能为制定的工程服务，shared runners可以为所有工程服务，但是只有系统管理员才能够创建shared runners。
+## 开启drone监控对应对应repo
+在安装drone后，会显示对应的web界面，用github账号登录即可。
 
-### gitlab-runner安装过程
-搭建环境为Ubuntu 18.04。
+登录后，会显示该账号下的repo列表。在列表中可以选择drone监控哪些repo。在本次实验中，新建了CI-CDtest仓库，用于准备CI/CD环境。
 
-首先执行以下指令添加gitlab的官方package。
+如图所示即可开启drone对CI-CDtest仓库的监控。
 
+## 修改drone设置
+修改drone内目标仓库的设置，使得每次push/pull request/deployment时drone都会进行对应操作。
+
+## 修改.drone.yml配置文件
+当drone监控到对应仓库的一个动作时，会根据.drone.yml的内容进行对应的动作。
+
+为了实验简单，在本次实验中仅进行build部分的动作，动作为在命令行打出"start build..."。
+
+配置内容如下：
 ```
-curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
+workspace:
+  base: /test
+  path: src/github.com/derFischer/CI-CDtest
+pipeline:
+  build:
+    image: maven:3.6.0-jdk-8-alpine
+    commands:
+      - echo "start build..."
 ```
+在配置后，每当drone监控到一个动作，就会在build的image下执行对应动作（此处为echo "start build..."）。
 
-然后安装gitlab-runner并启动。
+尝试对这个仓库进行commit，drone在监测到后成功执行了对应动作。
+
+# 使用drone对web应用进行自动打包至docker hub
+通过配置.drone.yml文件，可以实现drone在监测到仓库行为后自动搭建并打包项目至docker hub。
+
+本次实验在derFischer/swms-frontend（web应用的前端部分）和derFischer/swms-backend（web应用的后端部分）这两个仓库进行。
+
+开启监控与drone设置如上一部分所述。
+
+在修改配置文件时，由于前端和后端部分需要在不同的镜像中安装必要的文件，所以build的阶段需要做对应修改。同时还需增加publish阶段来进行打包。
+
+swms-frontend的配置文件修改如下：
 ```
-sudo apt-get install gitlab-runner
-
-gitlab-runner run
+workspace:
+  base: /front
+  path: src/github.com/derFischer/swms-frontend
+pipeline:
+  build:
+    image: node:latest
+    commands:
+      - npm install
+      - npm run-script build
+  publish:
+    image: plugins/docker
+    repo: dingd/swmsfrontend
+    tags: ["latest", "v2"]
+    secrets: [ docker_username, docker_password ]
+    dockerfile: Dockerfile
 ```
-完成相关配置后，可以在repo的设置中看到正在运行的runner:
-![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/gitlab-runner.png)
+其中publish的image是drone所写的插件，可以方便地把项目打包至docker hub。repo指定了打包的地址，secrets指定了docker用户名与密码。
 
-## 创建.gitlab-ci.yml来配置CI的操作
-### .gitlab-ci.yml介绍
-- .gitlab-ci.yml用来配置CI用你的项目中做哪些操作，这个文件位于仓库的根目录。
-- 当有新内容push到仓库后，gitlab会查找是否有.gitlab-ci.yml文件，如果文件存在，runners会根据文件的内容开始build本次commit。
+build的commands阶段，依前端要求增加了npm install和npm run-script build。
 
-.gitlab-ci.yml默认有3个state：build，test，deploy。在CI部分介绍中，首先介绍build和test部分。
 
-### 配置过程
-在仓库根目录创建.gitlab-ci.yml文件，并修改内容如图所示。
-![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6.png)
+swms-backend的配置文件修改如下：
+```
+workspace:
+  base: /back
+  path: src/github.com/derFischer/swms-backend
+pipeline:
+  build:
+    image: maven:3.6.0-jdk-8-alpine
+    commands:
+      - mvn install
+  publish:
+    image: plugins/docker
+    repo: dingd/swmsbackend
+    tags: ["latest", "v2"]
+    secrets: [ docker_username, docker_password ]
+    dockerfile: Dockerfile
+```
+修改与frontend类似。
 
-图上内容表示在每次push后，首先进行执行before_script（在命令行打出“Restoring Packages”），随后执行build_job阶段的script（打出“Release build...”），最后执行test_job阶段的script（打出“Tests run...”）。
+# 示例
+在对swms-frontend仓库进行push后，drone成功监控到了这个行为，同时进行build和publish操作，并将打包内容上传至了docker hub上。
 
-如果配置文件格式无误，gitlab将显示“This GitLab CI configuration is valid.”。
-
-### 最终结果
-至此gitlab的CI配置流程已经结束，随后在每次push后，gitlab均会根据.gitlab-ci.yml里的相关配置执行对应的操作，完成自动build与test。build与test的结果会显示在每次push之后。
-![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/commit%E8%87%AA%E5%8A%A8ci.png)
-如图显示此时push已经通过build与test。
-![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/CI%E8%87%AA%E5%8A%A8%E6%90%AD%E5%BB%BA.png)
-![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/CI%E8%87%AA%E5%8A%A8%E6%B5%8B%E8%AF%95.png)
+swms-frontend与swms-backend的CI/CD环境均测试成功。
