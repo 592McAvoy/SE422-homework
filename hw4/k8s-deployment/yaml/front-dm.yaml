@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-dm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front-pod
+  template:
+    metadata:
+      labels: 
+        app: front-pod
+    spec:
+      containers:
+      - name: front
+        image: dingd/swmsfrontend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80 
