@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-dm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: back-pod
+  template:
+    metadata:
+      labels: 
+        app: back-pod
+    spec:
+      containers:
+      - name: back
+        image: dingd/swmsbackend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 7070
