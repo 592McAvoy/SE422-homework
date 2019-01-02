@@ -97,3 +97,10 @@ pipeline:
 swms-frontend与swms-backend的CI/CD环境均测试成功。
 
 ![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/frontback.png)
+
+拉取docker镜像尝试运行。
+![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/Screenshot%20from%202019-01-02%2019-11-44.png)
+可以看到前端目前运行在主机的32771端口。
+
+打开浏览器输入localhost:32771， 前端运行成功。
+![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/Screenshot%20from%202019-01-02%2019-11-08.png)
