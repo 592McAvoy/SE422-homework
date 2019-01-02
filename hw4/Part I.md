@@ -12,9 +12,11 @@
 登录后，会显示该账号下的repo列表。在列表中可以选择drone监控哪些repo。在本次实验中，新建了CI-CDtest仓库，用于准备CI/CD环境。
 
 如图所示即可开启drone对CI-CDtest仓库的监控。
+![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/CI%E6%B5%8B%E8%AF%95.png)
 
 ## 修改drone设置
 修改drone内目标仓库的设置，使得每次push/pull request/deployment时drone都会进行对应操作。
+![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/drone%E8%AE%BE%E7%BD%AE.png)
 
 ## 修改.drone.yml配置文件
 当drone监控到对应仓库的一个动作时，会根据.drone.yml的内容进行对应的动作。
@@ -35,6 +37,7 @@ pipeline:
 在配置后，每当drone监控到一个动作，就会在build的image下执行对应动作（此处为echo "start build..."）。
 
 尝试对这个仓库进行commit，drone在监测到后成功执行了对应动作。
+![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/CI%E6%B5%8B%E8%AF%95%E6%88%90%E5%8A%9F.png)
 
 # 使用drone对web应用进行自动打包至docker hub
 通过配置.drone.yml文件，可以实现drone在监测到仓库行为后自动搭建并打包项目至docker hub。
@@ -89,5 +92,5 @@ pipeline:
 
 # 示例
 在对swms-frontend仓库进行push后，drone成功监控到了这个行为，同时进行build和publish操作，并将打包内容上传至了docker hub上。
-
+![](https://github.com/592McAvoy/homework1/blob/master/hw4/CI%20CD/CD%E8%87%AA%E5%8A%A8%E6%89%93%E5%8C%85%E5%89%8D%E7%AB%AFpush.png)
 swms-frontend与swms-backend的CI/CD环境均测试成功。
