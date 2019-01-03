@@ -6,25 +6,26 @@
 ## 测试环境 ##
 
  - 本测试在虚拟机Ubuntu 14.04中进行，处理器核数为4核，内存容量为10G  
- - Kubernetes集群通过minikube构建，集群中运行了一个bookstore网页应用，前端和数据库service对外暴露端口。
+ - Kubernetes集群通过minikube构建，集群中运行了一个Smart Watering and Monitoring System网页应用，前端和数据库service对外暴露端口。
 
-集群中共部署了三个service：front（front-end），bookstore-back（back-end）和mysql（database）
+集群中共部署了三个service：front（front-end），swms-back（back-end）和mysql（database）
 
     $ kubectl get service
-    NAME            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
-    bookstore-back   ClusterIP   10.99.195.117   <none>        8080/TCP         6h
-    front            NodePort    10.109.25.130   <none>        8080:32008/TCP   6h
-    kubernetes       ClusterIP   10.96.0.1       <none>        443/TCP          4d
-    mysql            NodePort    10.102.177.13   <none>        3306:32006/TCP   6h
+    NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+    front        NodePort    10.104.95.122   <none>        80:32001/TCP     9m
+    kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP          7d
+    mysql        NodePort    10.101.52.144   <none>        3306:32000/TCP   9m
+    swms-back    ClusterIP   10.98.66.46     <none>        7070/TCP         9m
 
 
-每一个service都由对应的ReplicaController来对副本的数量进行监控和调整
+每一个service都由对应的Deployment来对副本的数量进行监控和调整
 
-    $ kubectl get rc
-    NAME       DESIRED   CURRENT   READY     AGE
-    back-rc    1         1         1         5h
-    front-rc   10        10        10        5h
-    mysql-rc   1         1         1         5h
+    $ kubectl get deployment
+    NAME       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+    back-dm    1         1         1            1           10m
+    front-dm   1         1         1            1           10m
+    mysql      1         1         1            1           10m
+
 
 
 
@@ -33,7 +34,7 @@
 
  - 测试工具：Jmeter 
  - 测试样例：设置10000个线程，对front
-   service的/和/like页面持续发送30s请求，测量不同数量的front replica下的服务性能 
+   service的/和/chart页面持续发送30s请求，测量不同数量的front replica下的服务性能 
  - 测试数量：对replica =   1，2，5，7，10五种情况进行了测试
 
 ----------
